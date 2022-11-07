@@ -1,0 +1,17 @@
++ = optional
+
+- 3 classes at min
+    - Player
+        - Player's name
+        + Player's score / money amount
+    - Board (90% of the game lives and runs)
+        - Current phrase
+        - Phrase with blanks
+        - Letters guessed
+    - Runner / Main
+        - Main method
+        - Runs the game
+        + Collect player info
+        + Can reset game
+    + Spinner
+        - gets score / money
