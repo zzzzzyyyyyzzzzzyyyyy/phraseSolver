@@ -5,6 +5,8 @@ public class Board{
   private String phrase;
   private String findPhrase;
   private String lettersGuessed;
+  private int who;
+  private boolean correct;
 
   public Board(Player player, Player player2){
     // variable initialization
@@ -13,13 +15,14 @@ public class Board{
     lettersGuessed = "";
     int points = 0;
     String letter = "";
+    correct = false;
     // stringbuilder so i only replace a specific section of the string with something else
     // multiple times
     StringBuilder finalPhrase = new StringBuilder(findPhrase);
     // still need a string value for comparing, since string and stringbuilder isn't the same thing
     String strFinalPhrase = String.valueOf(finalPhrase);
     // keeps track of which plasyer
-    int who = 1;
+    who = 1;
     //String finalPhrase = findPhrase;
     System.out.println(finalPhrase);
 
@@ -35,7 +38,7 @@ public class Board{
       }
       System.out.println("\nPoints worth for each letter this round: " + points);
       // getLetter returns a valid, not-already-guessed, letter
-      letter = getLetter(lettersGuessed, player, player2, who);
+      letter = getLetter(lettersGuessed, player, player2, correct);
       lettersGuessed += letter;
       // one function for printing the letters guessed correctly
       printLettersGuessed(lettersGuessed);
@@ -48,9 +51,13 @@ public class Board{
           finalPhrase = finalPhrase.replace(i, i+1, letter);
           if(who == 1){
             player.addToScore(points);
+            correct = true;
+            who = 1;
           }
           else{
             player2.addToScore(points);
+            correct = false;
+            who = 2;
           }
         }
       }      
@@ -67,10 +74,10 @@ public class Board{
         break;
       }
 
-      if(who == 1){
+      if(who == 1 && correct == false){
         who = 2;
       }
-      else{
+      else if(who == 2 && correct == false){
         who = 1;
       }
       
@@ -157,7 +164,7 @@ public class Board{
   }
 
   //gets a valid letter from user and returns it
-  public String getLetter(String lettersGuessed, Player player, Player player2, int who){
+  public String getLetter(String lettersGuessed, Player player, Player player2, boolean correct){
     // variable initialization
     Scanner read = new Scanner(System.in);
     String all = "abcdefghijklmnopqrstuvwxyz";
@@ -165,7 +172,12 @@ public class Board{
 
     System.out.println("");
 
-    System.out.println("What letter would you like to guess " + player.getName() + "?");
+    if(who == 1){
+      System.out.println("What letter would you like to guess " + player.getName() + "?");
+    }
+    else{
+      System.out.println("What letter would you like to guess " + player2.getName() + "?");
+    }
     System.out.println("(If you enter a letter you already used, or a something that isn't a letter, you will lose points.)");
     // keeps loopign through, switching between players, until a valid answer is given
     //(input is a letter in the alphabet)(letter has not already been guessed)
@@ -178,6 +190,7 @@ public class Board{
         else{
           player2.subtractScore();
         } 
+        correct = false;
       }
     }
     letter = letter.substring(0,1);
