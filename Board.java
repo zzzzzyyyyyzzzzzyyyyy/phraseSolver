@@ -12,29 +12,46 @@ public class Board{
     lettersGuessed = "";
     int points = 0;
     String letter = "";
+    StringBuilder finalPhrase = new StringBuilder(findPhrase);
+    String strFinalPhrase = String.valueOf(finalPhrase);
+    //String finalPhrase = findPhrase;
+    System.out.println(finalPhrase);
 
-    while(findPhrase.indexOf("◡") != -1){
-      System.out.println(findPhrase);
-      letter = getLetter(lettersGuessed);
+    while(!strFinalPhrase.equals(phrase)){
+      //System.out.println(findPhrase);
+      letter = getLetter(lettersGuessed, player);
+      lettersGuessed += letter;
+      printLettersGuessed(lettersGuessed);
       points = Spinner.randomNum();
-      StringBuilder finalPhrase = new StringBuilder(findPhrase);
+      
 
-      if(phrase.indexOf(letter) == -1){
-        lettersGuessed += letter;
-      }
-      else{
-        for(int i = 0; i < phrase.length(); i++){
-          if(phrase.substring(i,i+1).equals(letter)){
-            finalPhrase = finalPhrase.replace(i, i+1, letter);
-          }
+      //if(phrase.indexOf(letter) == -1){
+      //  lettersGuessed += letter;
+      //}
+      //else{
+ 
+      for(int i = 0; i < phrase.length(); i++){
+        if(phrase.substring(i,i+1).equals(letter)){
+          finalPhrase = finalPhrase.replace(i, i+1, letter);
         }
-        lettersGuessed += letter;
       }
+      //  lettersGuessed += letter;
+      //}
 
-      System.out.println(finalPhrase);
+      System.out.println("Current Phrase Solved: " + finalPhrase);
 
+      strFinalPhrase = String.valueOf(finalPhrase);
+
+      //System.out.println(strFinalPhrase.equals(phrase));
+      //System.out.println("phrase: " + phrase + " , finalPhrase: " + finalPhrase);
+      if(strFinalPhrase.equals(phrase)){ 
+        break;
+      }
+      
     }
     
+    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    System.out.println("Congratulations! You did it. ok bye bye now.");
 
   }
 
@@ -101,11 +118,36 @@ public class Board{
   }
 
   //gets a valid letter from user and returns it
-  public String getLetter(String lettersGuessed){
+  public String getLetter(String lettersGuessed, Player player){
     Scanner read = new Scanner(System.in);
     String all = "abcdefghijklmnopqrstuvwxyz";
     String letter = "";
+    /* 
+    System.out.println("-------------------------------------------");
+    System.out.print("Letters Guessed: ");
+    for(int i = 0; i < lettersGuessed.length(); i++){
+      System.out.print(lettersGuessed.substring(i,i+1));
+      if(i < lettersGuessed.length()-1){
+        System.out.print(", ");
+      }
+    }
+    */
+    //printLettersGuessed(lettersGuessed);
+    System.out.println("");
+    //while((all.indexOf(letter) != -1) || (lettersGuessed.indexOf(letter) == -1)){ 
+    System.out.println("What letter would you like to guess " + player.getName() + "?");
+    while((all.indexOf(letter) == -1) || (lettersGuessed.indexOf(letter) != -1)){
+      letter = read.nextLine().toLowerCase();
+    }
+    letter = letter.substring(0,1);
+      //System.out.println(all.indexOf(letter));
+      //System.out.println(all.indexOf(letter) == -1);
+      
+    //}
+    return letter;
+  }
 
+  public static void printLettersGuessed(String lettersGuessed){
     System.out.println("-------------------------------------------");
     System.out.print("Letters Guessed: ");
     for(int i = 0; i < lettersGuessed.length(); i++){
@@ -115,15 +157,6 @@ public class Board{
       }
     }
     System.out.println("");
-    while((all.indexOf(letter) != -1) && (lettersGuessed.indexOf(letter) != -1)){ 
-      System.out.println("What letter would you like to guess? (Only first letter is accepted.)");
-      letter = read.nextLine().toLowerCase();
-      letter = letter.substring(0,1);
-      System.out.println(all.indexOf(letter) != -1);
-    }
-    return letter;
   }
-
-
 
 }

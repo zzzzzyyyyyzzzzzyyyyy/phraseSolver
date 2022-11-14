@@ -7,6 +7,7 @@ public class Main {
 
         Scanner read = new Scanner(System.in);
 
+        System.out.println("-----------------------------------------------------------------------");
         System.out.println("Welcome to this word game. Guess the phrase when given empty spaces.");
         System.out.println("But first, what is your name?");
 
