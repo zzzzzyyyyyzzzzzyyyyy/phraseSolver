@@ -3,9 +3,12 @@ import java.util.Scanner;
 public class Main {
     // Introduction
     public static void main(String[] args){
-        //Board board = new Board();
-        //board.loadPhrase();
+        
+        // clears screen
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
 
+        // thing for reading user input
         Scanner read = new Scanner(System.in);
 
         // introduces game and asks for player's name to use in future
