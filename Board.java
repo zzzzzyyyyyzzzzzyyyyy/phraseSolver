@@ -46,9 +46,11 @@ public class Board{
       // loops throught the actual phrase and checks when the letter in the phrase
       // is equal to the letter that the player guessed
       // then it replaces that spot in the empty stringbuiler with the actual letter
+      boolean someRight = false;
       for(int i = 0; i < phrase.length(); i++){
         if(phrase.substring(i,i+1).equals(letter)){
           finalPhrase = finalPhrase.replace(i, i+1, letter);
+          someRight = true;
           if(who == 1){
             player.addToScore(points);
             correct = true;
@@ -56,12 +58,21 @@ public class Board{
           }
           else{
             player2.addToScore(points);
-            correct = false;
+            correct = true;
             who = 2;
           }
         }
+        someRight = false;
       }      
 
+      if(someRight == false){
+        if(who == 1){
+          who = 2;
+        }
+        else{
+          who = 1;
+        }
+      }
       System.out.println("Current score for " + player.getName() + ": " + player.getScore());
       System.out.println("Current score for " + player2.getName() + ": " + player2.getScore());
       System.out.println("Current Phrase Solved: " + finalPhrase);
@@ -74,6 +85,8 @@ public class Board{
         break;
       }
 
+      System.out.println("who: " + String.valueOf(who));
+      System.out.println("correct: " + String.valueOf(correct));
       if(who == 1 && correct == false){
         who = 2;
       }
