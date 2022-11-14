@@ -10,17 +10,18 @@ public class Player {
     public String getName(){
         return name;
     }
-    /* 
-    public void setname(String n){
-        name = n;
-    }
-    */
 
+    // gets the score to print out
     public int getScore(){
         return score;
     }
+    // adds the random value (that initially comes from spinner) to the player's current points
     public int addToScore(int add){
         return score += add;
+    }
+    // subtracts 100 points for every dumb input
+    public int subtractScore(){
+        return score -= 100;
     }
 
 }

@@ -6,52 +6,90 @@ public class Board{
   private String findPhrase;
   private String lettersGuessed;
 
-  public Board(Player player){
+  public Board(Player player, Player player2){
+    // variable initialization
     phrase = loadPhrase();
     findPhrase = emptyPhrase(phrase);
     lettersGuessed = "";
     int points = 0;
     String letter = "";
+    // stringbuilder so i only replace a specific section of the string with something else
+    // multiple times
     StringBuilder finalPhrase = new StringBuilder(findPhrase);
+    // still need a string value for comparing, since string and stringbuilder isn't the same thing
     String strFinalPhrase = String.valueOf(finalPhrase);
+    // keeps track of which plasyer
+    int who = 1;
     //String finalPhrase = findPhrase;
     System.out.println(finalPhrase);
 
+    // loop that keeps running until the the whole phrase is guessed
     while(!strFinalPhrase.equals(phrase)){
-      //System.out.println(findPhrase);
-      letter = getLetter(lettersGuessed, player);
-      lettersGuessed += letter;
-      printLettersGuessed(lettersGuessed);
       points = Spinner.randomNum();
-      
-
-      //if(phrase.indexOf(letter) == -1){
-      //  lettersGuessed += letter;
-      //}
-      //else{
+      System.out.println("");
+      if(who == 1){
+        System.out.println("It is " + player.getName() + "'s turn.");
+      }
+      else{
+        System.out.println("It is " + player2.getName() + "'s turn.");
+      }
+      System.out.println("\nPoints worth for each letter this round: " + points);
+      // getLetter returns a valid, not-already-guessed, letter
+      letter = getLetter(lettersGuessed, player, player2, who);
+      lettersGuessed += letter;
+      // one function for printing the letters guessed correctly
+      printLettersGuessed(lettersGuessed);
  
+      // loops throught the actual phrase and checks when the letter in the phrase
+      // is equal to the letter that the player guessed
+      // then it replaces that spot in the empty stringbuiler with the actual letter
       for(int i = 0; i < phrase.length(); i++){
         if(phrase.substring(i,i+1).equals(letter)){
           finalPhrase = finalPhrase.replace(i, i+1, letter);
+          if(who == 1){
+            player.addToScore(points);
+          }
+          else{
+            player2.addToScore(points);
+          }
         }
-      }
-      //  lettersGuessed += letter;
-      //}
+      }      
 
+      System.out.println("Current score for " + player.getName() + ": " + player.getScore());
+      System.out.println("Current score for " + player2.getName() + ": " + player2.getScore());
       System.out.println("Current Phrase Solved: " + finalPhrase);
 
+      // another checker for if the stringbuilder, which is a string here
+      // is equal to the final phrase
+      // breaks out of loop if there is nothing more to guess
       strFinalPhrase = String.valueOf(finalPhrase);
-
-      //System.out.println(strFinalPhrase.equals(phrase));
-      //System.out.println("phrase: " + phrase + " , finalPhrase: " + finalPhrase);
       if(strFinalPhrase.equals(phrase)){ 
         break;
+      }
+
+      if(who == 1){
+        who = 2;
+      }
+      else{
+        who = 1;
       }
       
     }
     
+    // final print statmeents for end of game
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    System.out.println("Congratulations! You did it. ok bye bye now.");
+    System.out.println("Congratulations! You did it.");
+    System.out.println(player.getName() + "'s final score is: " + player.getScore());
+    System.out.println(player2.getName() + "'s final score is: " + player2.getScore());
+    if(player.getScore() > player2.getScore()){
+      System.out.println(player.getName() + " won!");
+    }
+    else if(player.getScore() < player2.getScore()){
+      System.out.println(player2.getName() + " won!");
+    }
+    else{
+      System.out.println("A tie!");
+    }
 
   }
 
@@ -100,6 +138,8 @@ public class Board{
     return findPhrase;
   }
 
+  // goes through actual phrase and makes another string that replaces all the lettes with 
+  // the ◡ symbol
   private String emptyPhrase(String phrase){
     
     String ep = "";
@@ -112,41 +152,41 @@ public class Board{
         ep += "◡";
       }
     }
-    
-    //System.out.println(ep);
+
     return ep;
   }
 
   //gets a valid letter from user and returns it
-  public String getLetter(String lettersGuessed, Player player){
+  public String getLetter(String lettersGuessed, Player player, Player player2, int who){
+    // variable initialization
     Scanner read = new Scanner(System.in);
     String all = "abcdefghijklmnopqrstuvwxyz";
     String letter = "";
-    /* 
-    System.out.println("-------------------------------------------");
-    System.out.print("Letters Guessed: ");
-    for(int i = 0; i < lettersGuessed.length(); i++){
-      System.out.print(lettersGuessed.substring(i,i+1));
-      if(i < lettersGuessed.length()-1){
-        System.out.print(", ");
-      }
-    }
-    */
-    //printLettersGuessed(lettersGuessed);
+
     System.out.println("");
-    //while((all.indexOf(letter) != -1) || (lettersGuessed.indexOf(letter) == -1)){ 
+
     System.out.println("What letter would you like to guess " + player.getName() + "?");
+    System.out.println("(If you enter a letter you already used, or a something that isn't a letter, you will lose points.)");
+    // keeps loopign through, switching between players, until a valid answer is given
+    //(input is a letter in the alphabet)(letter has not already been guessed)
     while((all.indexOf(letter) == -1) || (lettersGuessed.indexOf(letter) != -1)){
       letter = read.nextLine().toLowerCase();
+      if((all.indexOf(letter) == -1) || (lettersGuessed.indexOf(letter) != -1)){
+        if(who == 1){
+          player.subtractScore();
+        }
+        else{
+          player2.subtractScore();
+        } 
+      }
     }
     letter = letter.substring(0,1);
-      //System.out.println(all.indexOf(letter));
-      //System.out.println(all.indexOf(letter) == -1);
-      
-    //}
+
     return letter;
   }
 
+  // a function that prints out the guessed letters in a good format
+  // just didn't need to print this whole section multiple times
   public static void printLettersGuessed(String lettersGuessed){
     System.out.println("-------------------------------------------");
     System.out.print("Letters Guessed: ");
