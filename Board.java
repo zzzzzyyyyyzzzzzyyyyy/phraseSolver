@@ -30,6 +30,7 @@ public class Board{
     while(!strFinalPhrase.equals(phrase)){
       points = Spinner.randomNum();
       System.out.println("");
+      System.out.println("who33: " + String.valueOf(who));
       if(who == 1){
         System.out.println("It is " + player.getName() + "'s turn.");
       }
@@ -51,6 +52,7 @@ public class Board{
         if(phrase.substring(i,i+1).equals(letter)){
           finalPhrase = finalPhrase.replace(i, i+1, letter);
           someRight = true;
+          System.out.println("who55: " + String.valueOf(who));
           if(who == 1){
             player.addToScore(points);
             correct = true;
@@ -61,10 +63,18 @@ public class Board{
             correct = true;
             who = 2;
           }
-        }
+          someRight = true;
+        }     
+      }     
+      System.out.println("correct69: " + String.valueOf(correct));
+      if(correct == true){
         someRight = false;
-      }      
+      } 
+      
 
+      System.out.println("who75: " + String.valueOf(who));
+      System.out.println("someRight76: " + String.valueOf(someRight));
+      /* 
       if(someRight == false){
         if(who == 1){
           who = 2;
@@ -73,6 +83,8 @@ public class Board{
           who = 1;
         }
       }
+      */
+      System.out.println("who87: " + String.valueOf(who));
       System.out.println("Current score for " + player.getName() + ": " + player.getScore());
       System.out.println("Current score for " + player2.getName() + ": " + player2.getScore());
       System.out.println("Current Phrase Solved: " + finalPhrase);
@@ -84,15 +96,19 @@ public class Board{
       if(strFinalPhrase.equals(phrase)){ 
         break;
       }
-
-      System.out.println("who: " + String.valueOf(who));
-      System.out.println("correct: " + String.valueOf(correct));
+      System.out.println("who97: " + String.valueOf(who));
+      System.out.println("correct98: " + String.valueOf(correct));
+       
       if(who == 1 && correct == false){
         who = 2;
       }
       else if(who == 2 && correct == false){
         who = 1;
       }
+      
+      System.out.println("who105: " + String.valueOf(who));
+
+      correct = false;
       
     }
     
