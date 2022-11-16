@@ -30,11 +30,13 @@ public class Main {
         // where nearly all the game logic is
         Board board = new Board(player, player2);
 
-        System.out.println("\nWould you like to replay? (yes/any character,y/any character)");
+        System.out.println("\n\n\nWould you like to replay? (yes/any character,y/any character)");
         String replay = read.nextLine();
         while(replay.equals("yes") || replay.equals("y")){
+            player.resetScore();
+            player2.resetScore();
             board = new Board(player, player2);
-            System.out.println("\nWould you like to replay? (yes/any character,y/any character)");
+            System.out.println("\n\n\nWould you like to replay? (yes/any character,y/any character)");
             replay = read.nextLine();
         }
 
