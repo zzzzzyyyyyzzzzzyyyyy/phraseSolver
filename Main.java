@@ -38,7 +38,5 @@ public class Main {
             replay = read.nextLine();
         }
 
-        //System.exit(0);
-
     }
 }
