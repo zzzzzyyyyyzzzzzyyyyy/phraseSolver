@@ -30,6 +30,8 @@ public class Main {
         // where nearly all the game logic is
         Board board = new Board(player, player2);
 
+        // allows the game to be reset with player's keeping the same name
+        // btu the scores reset to 0
         System.out.println("\n\n\nWould you like to replay? (yes/any character,y/any character)");
         String replay = read.nextLine();
         while(replay.equals("yes") || replay.equals("y")){
