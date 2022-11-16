@@ -16,6 +16,7 @@ public class Board{
     int points = 0;
     String letter = "";
     correct = false;
+    Scanner read = new Scanner(System.in);
     // stringbuilder so i only replace a specific section of the string with something else
     // multiple times
     StringBuilder finalPhrase = new StringBuilder(findPhrase);
